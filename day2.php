@@ -1,6 +1,6 @@
 <?php
 
-$data = nl2br(file_get_contents('data/day2.txt'));
+$data = nl2br(file_get_contents('data/' . basename(__FILE__, '.php') . '.txt'));
 $points = 0;
 
 // Opponent
