@@ -39,7 +39,7 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $data) as $line){
 } 
 
 echo "<br>";
-echo "<strong>Total points</strong><br>";
+echo "<strong>Part 1 - Total points</strong><br>";
 echo $points;
 echo "<br>";
 
@@ -96,5 +96,5 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $data) as $line){
 } 
 
 echo "<br>";
-echo "<strong>Total points part 2</strong><br>";
+echo "<strong>Part 2 - Total points</strong><br>";
 echo $points;
