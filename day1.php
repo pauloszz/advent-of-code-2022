@@ -24,7 +24,7 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $data) as $line){
 $array[$count] -= $count;
 
 echo "<br>";
-echo "<strong>Single highest number of calories</strong><br>";
+echo "<strong>Part 1 - Single highest number of calories</strong><br>";
 echo max($array);
 echo "<br>";
 
@@ -33,5 +33,5 @@ $top3 = array_reverse(array_slice($array, 0, 3));
 $total = $top3[0] + $top3[1] + $top3[2];
 
 echo "<br>";
-echo "<strong>Top 3 combined calories</strong><br>";
+echo "<strong>Part 2 - Top 3 combined calories</strong><br>";
 echo $total;
