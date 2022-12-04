@@ -1,6 +1,6 @@
 <?php
 
-$data = nl2br(file_get_contents('data/day1.txt'));
+$data = nl2br(file_get_contents('data/' . basename(__FILE__, '.php') . '.txt'));
 
 $array = [];
 $count = 0;
