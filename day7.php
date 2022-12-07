@@ -21,14 +21,14 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $data) as $line){
 		if ($command == "cd") {
 			switch ($commandArg) {
 				case "/":
-					$folders["/"] = 0;
+					$folders["/root"] = 0;
 					break;
 				case "..":
 					$currentPath = substr($currentPath, 0, strrpos($currentPath, "/"));
 					break;
 				default:
-					$folders[$commandArg] = 0;
 					$currentPath .= "/" . $commandArg;
+					$folders[$currentPath] = 0;
 					break;
 			}
 		}
@@ -43,39 +43,46 @@ foreach(preg_split("/((\r?\n)|(\r\n?))/", $data) as $line){
 foreach ($files as $file) {
 	foreach ($folders as $folderName => $folderSize) {
 		if ($folderName === "/") {
-			$folderNameLookup = "root";
+			$folderNameLookup = "/root";
 		} else {
 			$folderNameLookup = $folderName;
 		}
-		if (str_contains($file, "/" . $folderNameLookup . "/")) {
-			// echo "File " . $file . " is part of " . $folderNameLookup . "<br>";
+		if (str_contains($file, $folderNameLookup . "/")) {
 			$lastSeparator = strrpos($file, "/")+1;
-			// echo "Pos of last /: " . $lastSeparator . "<br>";
 			$firstSpace = strpos($file, " ");
-			// echo "Pos of space: " . $firstSpace . "<br>";
 			$size = (int) substr($file, $lastSeparator, $firstSpace - $lastSeparator);
-			// echo "Size of file: " . $size . "<br>";
 			$folders[$folderName] += $size;
 		}
 	}
 }
 
 foreach ($folders as $folderSize) {
-	echo "Size: " . $folderSize . "<br>";
-	if ($folderSize < 100000) {
-		echo "Adding " . $folderSize . " to total<br>";
+	if ($folderSize <= 100000) {
 		$part1Size += $folderSize;
 	}
 }
 
-echo "Folders<br><pre>";
-var_dump($folders);
-echo "</pre>";
-
-echo "Files<br><pre>";
-var_dump($files);
-echo "</pre>";
-
-echo "<strong>Part 1 - Size of al folders below 100000</strong><br>";
+echo "<strong>Part 1 - Size of all folders below 100000</strong><br>";
 echo $part1Size;
-echo "<br>";
+echo "<br><br>";
+
+$totalSpace = 70000000;
+$requiredSpace = 30000000;
+$usedSpace = $folders["/root"];
+$freeSpace = $totalSpace - $usedSpace;
+$spaceToFreeUp = $requiredSpace - $freeSpace;
+$possibleFolders = [];
+
+foreach ($folders as $folderName => $folderSize) {
+	if ($folderSize >= $spaceToFreeUp) {
+		$possibleFolders[$folderName] = $folderSize;
+	}
+}
+
+$folderToDeleteSize = min($possibleFolders);
+$folderTotDeleteName = array_keys($possibleFolders, $folderToDeleteSize, true);
+
+echo "<strong>Part 2 - Folder to free up space</strong><br>";
+echo "Folder: " . $folderTotDeleteName[0] . "<br>";
+echo "Size: " . $folderToDeleteSize;
+echo "<br><br>";
